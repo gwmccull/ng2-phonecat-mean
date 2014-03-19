@@ -2,14 +2,16 @@
 
 ## Overview
 
-This application takes the developer through the process of building a web-application using
-angular. The application is loosely based on
-[Google phone gallery](http://www.google.com/phone/). Each commit is a separate lesson
-teaching a single aspect of angular.
+This application takes the Angular Phonecat project (https://github.com/angular/angular-seed) and converts it into a simple
+MEAN stack application.  This project uses MongoDB, NodeJS and ExpressJS for the backend.
 
 
 ## Prerequisites
 
+As this project is an extension of the Angular Phonecat project, if you are not familiar with Angular, you should first
+complete that tutorial.
+
+The following are the pre-requisites from Angular Phonecat:
 ### Git
 - A good place to learn about setting up git is [here][git-github]
 - Git [home][git-home] (download, documentation)
@@ -20,151 +22,70 @@ teaching a single aspect of angular.
 - Windows download from [here][node-windows]. (You will also need [7 Zip] to unzip the node archive)
   (and don't forget to add `node.exe` to  your executable path)
 
+This project has several pre-requisites of its own:
+### MongoDB
+- Install [MongoDB][mongodb] per the instructions on that page
+
+### NPM Install
+- From the project directory, run the command, "npm install".  This should install the project dependencies from package.json
+
+
+Not required but convenient:
+### NodeMon
+- This project can be installed globally using NPM.  Once installed, you run your NodeJS using NodeMon instead of Node.  NodeMon
+watches your file saves and restarts the Node server every time you save a change
+
+
 ## Workings of the application
 
-- The application filesystem layout structure is based on the [angular-seed] project.
-- There is no backend (no server) for this application. Instead we fake the XHRs by fetching
-  static json files.
-- Read the Development section at the end to familiarize yourself with running and developing
-  an angular application.
+- The application filesystem layout structure is based on the [angular-seed] project and the [angular-phonecat] project
+- For simplicity, the Karma tests have been deleted from this project but it should be easy to add them back in
+- The server runs in NodeJS.  Starting the server may be accomplished by running "node server.js" from the project directory
+- The server watches port 8080 so you can view the application at http://localhost:8080/
 
-## Commits / Tutorial Outline
 
-You can check out any point of the tutorial using
-    git checkout step-?
+## Edits / Tutorial Outline
 
-To see the changes which between any two lessons use the git diff command.
-    git diff step-?..step-?
-
+It doesn't take very many edits to move from the original Angular Phonecat project to the MEAN stack version.
 ### step-0
 
-- Initial [angular-seed] project layout
+- Download the Angular Phonecat project (or this project)
 
 
 ### step-1
 
-- We have converted the seed application by removing all of the boiler-plate code.
-- We have added single static HTML file which shows a static list of phones. (we will convert this
-  static page into dynamic one with the help of angular)
+- Load the JSON files into MongoDB
+- Some basic editing maybe necessary for mongoimport to recognize the JSON files (as I recall, it wants the JSON file to
+have one line per row in the file)
+  - server.js is looking for a database called "phonecat" and collections called "phonelist" and "phones".  If you import
+  the JSON files into a different place, be sure to edit server.js
+- the id property in the JSON file should be changed to _id, as MongoDB uses _id as it's unique identifier
 
 
 ### step-2
 
-- Converted static page into dynamic one by:
-  - create a root controller for the application
-  - extracting the data from HTML into a the controller as a mock dataset
-  - convert the static document into a template with the use of `ng:` [directive] (iterate over
-    mock data using [ng:repeat] and render it into a view)
-- Added unit test, which mostly shows how one goes about writing a unit test, rather then test
-  something of value on our mock dataset.
+- I wanted to test an edit capability so I edited /app/js/controllers.js to create a save function
+  - An isEditing variable was added to the scope to allow the user to toggle between view and edit modes
 
 
 ### step-3
 
-- added a search box to demonstrate how:
-  - the data-binding works on input fields
-  - to use [$filter] function
-  - [ng:repeat] automatically shrinks and grows the number of phones in the view
-- added an end-to-end test to:
-  - show how end-to-end tests are written and used
-  - to prove that the search box and the repeater are correctly wired together
+- /app/js/services.js was edited to use the NodeJS server rather than the JSON files
 
 
 ### step-4
 
-- replaced the mock data with data loaded from the server (in our case the JSON return is just a
-  static file)
-  - The JSON is loaded using the [$xhr] service
-- Demonstrate the use of [services][service] and [dependency injection][DI]
-  - The [$xhr] is injected into the controller through [dependency injection][DI]
-
+- /app/partials/phone-detail.html was edited to add an Edit/Save button and to make some fields editable
+  - All of the fields could be made editable but weren't due to time constraints
+- /app/partials/phone-list.html was edited to reference "phone._id" instead of "phone.id" due to the change we made earlier
+for MongoDB
 
 ### step-5
 
-- adding phone image and links to phone pages
-- css to style the page just a notch
-
-
-### step-6
-
-- making the order predicate for catalog dynamic
-  - adding 'predicates' section to the view with links that control the order
-  - ordering defaults to 'age' property
-- css sugar
-
-
-### step-7
-
-- Introduce the [$route] service which allows binding URLs for deep-linking with views
-  - Replace content of root controller PhonesCtrl with [$route] configuration
-  - Map `/phones' to PhoneListCtrl and partails/phones-list.html
-  - Map `/phones/phone-id' to PhoneDetailCtrl and partails/phones-detail.html
-  - Copy deep linking parameters to root controller `params` property for access in sub controllers
-  - Replace content of index.html with [ng:view]
-- Create PhoneListCtrl view
-  - Move code which fetches phones data into PhoneListCtrl
-  - Move existing HTML from index.html to partials/phone-list.html
-- Create PhoneDetailsCtrl view
-  - Wire [$route] service to map `/phanes/phone-id` to map to this controller.
-  - Empty PhoneDetailsCtrl
-  - Place holder partials/phane-details.html
-
-### step-8
-
-- Fetch data for and render phone detail view
-  - [$xhr] to fetch details for a specific phone
-  - template for the phone detailed view
-- CSS to make it look pretty
-- Detail data for phones in JSON format
-
-### step-9
-
-- replace [$xhr] with [$resource]
-  - demonstrate how a resource can be created using a [service]
-
-## Development with angular-seed
-
-The following docs apply to all angular-seed projects and since the phonecat tutorial is a project
-based on angular-seed, the instructions apply to it as well.
-
-### Running the app during development
-
-1. run `./scripts/web-server.js`
-2. navigate your browser to `http://localhost:8000/app/index.html` to see the app running in your
-   browser.
-
-### Running unit tests
-
-We recommend using [jasmine](http://pivotal.github.com/jasmine/) and
-[Karma](http://karma-runner.github.io) for your unit tests/specs, but you are free
-to use whatever works for you.
-
-Requires [node.js](http://nodejs.org/), Karma (`sudo npm install -g karma karma-jasmine karma-chrome-launcher`) and a local
-or remote browser.
-
-* start `scripts/test.sh` (on windows: `scripts\test.bat`)
-  * a browser will start and connect to the Karma server (Chrome is default browser, others can be captured by loading the same url as the one in Chrome or by changing the `config/karma.conf.js` file)
-* to run or re-run tests just change any of your source or test javascript files
-
-
-### End to end testing
-
-Angular ships with a baked-in end-to-end test runner that understands angular, your app and allows
-you to write your tests with jasmine-like BDD syntax.
-
-Requires a webserver, node.js + `./scripts/web-server.js` or your backend server that hosts the angular static files.
-
-Check out the
-[end-to-end runner's documentation](http://docs.angularjs.org/guide/dev_guide.e2e-testing) for more
-info.
-
-* Install the Karma ng-scenario adapter with `npm install -g karma-ng-scenario`
-* create your end-to-end tests in `test/e2e/scenarios.js`
-* serve your project directory with your http/backend server or node.js + `scripts/web-server.js`
-* to run do one of:
-  * open `http://localhost:port/test/e2e/runner.html` in your browser
-  * run the tests from console with [Karma](http://karma-runner.github.io) via
-    `scripts/e2e-test.sh` or `script/e2e-test.bat`
+- /server.js was built
+  - this file contains the code to create the NodeJS/ExpressJS application
+  - Mongoose is used to control access to MongoDB.  Mongoose allows you to enforce a schema on the schema-less MongoDB.  It
+  also simplifies some database calls
 
 
 ## Application Directory Layout
@@ -174,7 +95,6 @@ info.
         app.css         --> default stylesheet
       img/              --> image files
       index.html        --> app layout file (the main html template file of the app)
-      index-async.html  --> just like index.html, but loads js files asynchronously
       js/               --> javascript files
         app.js          --> application
         controllers.js  --> application controllers
@@ -188,52 +108,6 @@ info.
           angular-*.js      --> angular add-on modules
           version.txt       --> version number
       partials/             --> angular view partials (partial html templates)
-        partial1.html
-        partial2.html
-
-    config/karma.conf.js        --> config file for running unit tests with Karma
-    config/karma-e2e.conf.js    --> config file for running e2e tests with Karma
-
-    scripts/            --> handy shell/js/ruby scripts
-      e2e-test.sh       --> runs end-to-end tests with Karma (*nix)
-      e2e-test.bat      --> runs end-to-end tests with Karma (windows)
-      test.bat          --> autotests unit tests with Karma (windows)
-      test.sh           --> autotests unit tests with Karma (*nix)
-      web-server.js     --> simple development webserver based on node.js
-
-    test/               --> test source files and libraries
-      e2e/              -->
-        runner.html     --> end-to-end test runner (open in your browser to run)
-        scenarios.js    --> end-to-end specs
-      lib/
-        angular/                --> angular testing libraries
-          angular-mocks.js      --> mocks that replace certain angular services in tests
-          angular-scenario.js   --> angular's scenario (end-to-end) test runner library
-          version.txt           --> version file
-      unit/                     --> unit level specs/tests
-        controllersSpec.js      --> specs for controllers
-        directivessSpec.js      --> specs for directives
-        filtersSpec.js          --> specs for filters
-        servicesSpec.js         --> specs for services
-
-## Contact
-
-For more information on AngularJS please check out http://angularjs.org/
-
-[7 Zip]: http://www.7-zip.org/
-[angular-seed]: https://github.com/angular/angular-seed
-[DI]: http://docs.angularjs.org/#!guide.di
-[directive]: http://docs.angularjs.org/#!angular.directive
-[$filter]: http://docs.angularjs.org/#!angular.Array.filter
-[git-home]: http://git-scm.com
-[git-github]: http://help.github.com/set-up-git-redirect
-[ng:repeat]: http://docs.angularjs.org/#!angular.widget.@ng:repeat
-[ng:view]: http://docs.angularjs.org/#!angular.widget.ng:view
-[node-mac]: http://code.google.com/p/rudix/downloads/detail?name=node-0.4.0-0.dmg&can=2&q=
-[node-windows]: http://node-js.prcn.co.cc/
-[node-generic]: https://github.com/joyent/node/wiki/Installation
-[java]: http://www.java.com
-[$resource]: http://docs.angularjs.org/#!angular.service.$resource
-[$rouet]: http://docs.angularjs.org/#!angular.service.$route
-[service]: http://docs.angularjs.org/#!angular.service
-[$xhr]: http://docs.angularjs.org/#!angular.service.$xhr
+        phone-detail.html   --> HTML template that shows detailed info about a phone
+        phone-list.html     --> HTML template that shows a list of all of the phones
+    server.js           --> NodeJS/ExpressJS server application

@@ -1,3 +1,4 @@
+<form name="phoneDetail">
 <div class="phone-images">
   <img ng-src="{{img}}"
        class="phone"
@@ -7,7 +8,8 @@
 
 <h1>{{phone.name}}</h1>
 
-<p>{{phone.description}}</p>
+<p ng-show="!isEditing">{{phone.description}}</p>
+<textarea ng-show="isEditing" rows="4" style="width:500px" ng-model="phone.description"></textarea>
 
 <ul class="phone-thumbs">
   <li ng-repeat="img in phone.images">
@@ -27,8 +29,11 @@
     <span>Battery</span>
     <dl>
       <dt>Type</dt>
-      <dd>{{phone.battery.type}}</dd>
-      <dt>Talk Time</dt>
+		<dd>
+			<span ng-show="!isEditing">{{phone.battery.type}}</span>
+			<input ng-show="isEditing" type="text" ng-model="phone.battery.type" />
+		</dd>
+		<dt>Talk Time</dt>
       <dd>{{phone.battery.talkTime}}</dd>
       <dt>Standby time (max)</dt>
       <dd>{{phone.battery.standbyTime}}</dd>
@@ -55,7 +60,10 @@
       <dt>Infrared</dt>
       <dd>{{phone.connectivity.infrared | checkmark}}</dd>
       <dt>GPS</dt>
-      <dd>{{phone.connectivity.gps | checkmark}}</dd>
+		<dd>
+			<span ng-show="!isEditing">{{phone.connectivity.gps | checkmark}}</span>
+			<input ng-show="isEditing" type="text" ng-model="phone.connectivity.gps" /></span>
+		</dd>
     </dl>
   </li>
   <li>
@@ -116,3 +124,6 @@
     <dd>{{phone.additionalFeatures}}</dd>
   </li>
 </ul>
+<button ng-show="!isEditing" ng-click="isEditing = true">Edit</button>
+<button ng-show="isEditing" ng-click="save(phone)">Save</button>
+</form>
