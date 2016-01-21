@@ -1,34 +1,39 @@
 'use strict';
 
 /* Controllers */
+(function() {
+    angular.module('phonecatControllers', [])
+        .controller('PhoneDetailCtrl', PhoneDetailCtrl)
+        .controller('PhoneListCtrl', PhoneListCtrl);
 
-var phonecatControllers = angular.module('phonecatControllers', []);
+    PhoneDetailCtrl.$inject = ['$routeParams', 'Phone'];
+    function PhoneDetailCtrl($routeParams, Phone) {
+        var vm = this;
+        vm.isEditing = false;
 
-phonecatControllers.controller('PhoneListCtrl', ['$scope', 'Phone',
-  function($scope, Phone) {
-    $scope.phones = Phone.query();
-    $scope.orderProp = 'age';
-  }]);
+        vm.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
+            vm.mainImageUrl = phone.images[0];
+        });
+        vm.save = savePhone;
+        vm.setImage = function(imageUrl) {
+            vm.mainImageUrl = imageUrl;
+        };
 
-phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams', 'Phone',
-  function($scope, $routeParams, Phone) {
-	  $scope.isEditing = false;
-
-	  $scope.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
-      $scope.mainImageUrl = phone.images[0];
-    });
-
-    $scope.setImage = function(imageUrl) {
-      $scope.mainImageUrl = imageUrl;
+        function savePhone(phone) {
+            Phone.update({phoneId: phone._id}, phone, function(result) {
+                if(result['0'] == 1) {
+                    vm.isEditing = false;
+                } else {
+                    console.error('Error while saving');
+                }
+            });
+        }
     }
 
-	  $scope.save = function(phone) {
-		  Phone.update({phoneId: phone._id}, phone, function(result) {
-			  if(result['0'] == 1) {
-				  $scope.isEditing = false;
-			  } else {
-				  console.error('Error while saving');
-			  }
-		  });
-	  };
-  }]);
+    PhoneListCtrl.$inject = ['Phone'];
+    function PhoneListCtrl(Phone) {
+        var vm = this;
+        vm.phones = Phone.query();
+        vm.orderProp = 'age';
+    }
+})();

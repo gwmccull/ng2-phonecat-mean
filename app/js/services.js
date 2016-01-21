@@ -1,20 +1,26 @@
 'use strict';
 
 /* Services */
+(function() {
+    angular
+        .module('phonecatServices', ['ngResource'])
+        .factory('Phone', Phone);
 
-var phonecatServices = angular.module('phonecatServices', ['ngResource']);
-
-phonecatServices.factory('Phone', ['$resource',
-  function($resource){
-	  return $resource('/api/phonelist/:phoneId', {}, {
-		  query: {
-			  method: 'GET',
-			  isArray: true,
-			  cache: false
-		  },
-		  update: {
-			  method: 'PUT'
-		  }
-
-	  });
-  }]);
+    Phone.$inject = ['$resource'];
+    function Phone($resource){
+        return $resource(
+            '/api/phonelist/:phoneId',
+            {},
+            {
+                query: {
+                    method: 'GET',
+                    isArray: true,
+                    cache: false
+                },
+                update: {
+                    method: 'PUT'
+                }
+            }
+        );
+    }
+})();
