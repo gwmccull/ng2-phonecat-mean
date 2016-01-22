@@ -6,34 +6,55 @@
         .controller('PhoneDetailCtrl', PhoneDetailCtrl)
         .controller('PhoneListCtrl', PhoneListCtrl);
 
-    PhoneDetailCtrl.$inject = ['$routeParams', 'Phone'];
-    function PhoneDetailCtrl($routeParams, Phone) {
+    PhoneDetailCtrl.$inject = ['$routeParams', 'Phone', '$log'];
+    function PhoneDetailCtrl($routeParams, Phone, $log) {
         var vm = this;
         vm.isEditing = false;
-
-        vm.phone = Phone.get({phoneId: $routeParams.phoneId}, function(phone) {
-            vm.mainImageUrl = phone.images[0];
-        });
+        vm.mainImageUrl = '';
+        vm.phone = {};
         vm.save = savePhone;
         vm.setImage = function(imageUrl) {
             vm.mainImageUrl = imageUrl;
         };
 
+        Phone.getPhone($routeParams.phoneId).then(getPhoneSuccess, getPhoneFailure);
+
+        function getPhoneFailure(err) {
+            $log.error("err", err);
+        }
+
+        function getPhoneSuccess(phone) {
+            $log.log(phone.data);
+            vm.phone = phone.data;
+            vm.setImage(vm.phone.images[0]);
+        }
+
         function savePhone(phone) {
-            Phone.update({phoneId: phone._id}, phone, function(result) {
-                if(result['0'] == 1) {
-                    vm.isEditing = false;
-                } else {
-                    console.error('Error while saving');
-                }
-            });
+            //Phone.update({phoneId: phone._id}, phone, function(result) {
+            //    if(result['0'] == 1) {
+            //        vm.isEditing = false;
+            //    } else {
+            //        $log.error('Error while saving');
+            //    }
+            //});
         }
     }
 
-    PhoneListCtrl.$inject = ['Phone'];
-    function PhoneListCtrl(Phone) {
+    PhoneListCtrl.$inject = ['Phone', '$log'];
+    function PhoneListCtrl(Phone, $log) {
         var vm = this;
-        vm.phones = Phone.query();
+        vm.phones = [];
         vm.orderProp = 'age';
+
+        Phone.getPhones().then(success, failure);
+
+        function failure(err) {
+            $log.error("err", err);
+        }
+
+        function success(phones) {
+            $log.log(phones.data)
+            vm.phones = phones.data;
+        }
     }
 })();

@@ -6,21 +6,19 @@
         .module('phonecatServices', ['ngResource'])
         .factory('Phone', Phone);
 
-    Phone.$inject = ['$resource'];
-    function Phone($resource){
-        return $resource(
-            '/api/phonelist/:phoneId',
-            {},
-            {
-                query: {
-                    method: 'GET',
-                    isArray: true,
-                    cache: false
-                },
-                update: {
-                    method: 'PUT'
-                }
-            }
-        );
+    Phone.$inject = ['$http'];
+    function Phone($http){
+        return {
+            getPhones: getPhones,
+            getPhone: getPhone
+        };
+
+        function getPhone(phoneId) {
+            return $http.get('phones/' + phoneId + '.json');
+        }
+
+        function getPhones() {
+            return $http.get('phones/phones.json');
+        }
     }
 })();

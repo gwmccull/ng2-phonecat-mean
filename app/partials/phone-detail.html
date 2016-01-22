@@ -2,18 +2,18 @@
 <div class="phone-images">
   <img ng-src="{{img}}"
        class="phone"
-       ng-repeat="img in phone.images"
-       ng-class="{active: mainImageUrl==img}">
+       ng-repeat="img in PhoneDetail.phone.images"
+       ng-class="{active: PhoneDetail.mainImageUrl === img}">
 </div>
 
-<h1>{{phone.name}}</h1>
+<h1>{{PhoneDetail.phone.name}}</h1>
 
-<p ng-show="!isEditing">{{phone.description}}</p>
-<textarea ng-show="isEditing" rows="4" style="width:500px" ng-model="phone.description"></textarea>
+<p ng-show="!isEditing">{{PhoneDetail.phone.description}}</p>
+<textarea ng-show="PhoneDetail.isEditing" rows="4" style="width:500px" ng-model="PhoneDetail.phone.description"></textarea>
 
 <ul class="phone-thumbs">
-  <li ng-repeat="img in phone.images">
-    <img ng-src="{{img}}" ng-click="setImage(img)">
+  <li ng-repeat="img in PhoneDetail.phone.images">
+    <img ng-src="{{img}}" ng-click="PhoneDetail.setImage(img)">
   </li>
 </ul>
 
@@ -22,7 +22,7 @@
     <span>Availability and Networks</span>
     <dl>
       <dt>Availability</dt>
-      <dd ng-repeat="availability in phone.availability">{{availability}}</dd>
+      <dd ng-repeat="availability in PhoneDetail.phone.availability">{{availability}}</dd>
     </dl>
   </li>
   <li>
@@ -30,39 +30,39 @@
     <dl>
       <dt>Type</dt>
 		<dd>
-			<span ng-show="!isEditing">{{phone.battery.type}}</span>
-			<input ng-show="isEditing" type="text" ng-model="phone.battery.type" />
+			<span ng-show="!PhoneDetail.isEditing">{{PhoneDetail.phone.battery.type}}</span>
+			<input ng-show="PhoneDetail.isEditing" type="text" ng-model="PhoneDetail.phone.battery.type" />
 		</dd>
 		<dt>Talk Time</dt>
-      <dd>{{phone.battery.talkTime}}</dd>
+      <dd>{{PhoneDetail.phone.battery.talkTime}}</dd>
       <dt>Standby time (max)</dt>
-      <dd>{{phone.battery.standbyTime}}</dd>
+      <dd>{{PhoneDetail.phone.battery.standbyTime}}</dd>
     </dl>
   </li>
   <li>
     <span>Storage and Memory</span>
     <dl>
       <dt>RAM</dt>
-      <dd>{{phone.storage.ram}}</dd>
+      <dd>{{PhoneDetail.phone.storage.ram}}</dd>
       <dt>Internal Storage</dt>
-      <dd>{{phone.storage.flash}}</dd>
+      <dd>{{PhoneDetail.phone.storage.flash}}</dd>
     </dl>
   </li>
   <li>
     <span>Connectivity</span>
     <dl>
       <dt>Network Support</dt>
-      <dd>{{phone.connectivity.cell}}</dd>
+      <dd>{{PhoneDetail.phone.connectivity.cell}}</dd>
       <dt>WiFi</dt>
-      <dd>{{phone.connectivity.wifi}}</dd>
+      <dd>{{PhoneDetail.phone.connectivity.wifi}}</dd>
       <dt>Bluetooth</dt>
-      <dd>{{phone.connectivity.bluetooth}}</dd>
+      <dd>{{PhoneDetail.phone.connectivity.bluetooth}}</dd>
       <dt>Infrared</dt>
-      <dd>{{phone.connectivity.infrared | checkmark}}</dd>
+      <dd>{{PhoneDetail.phone.connectivity.infrared | checkmark}}</dd>
       <dt>GPS</dt>
 		<dd>
-			<span ng-show="!isEditing">{{phone.connectivity.gps | checkmark}}</span>
-			<input ng-show="isEditing" type="text" ng-model="phone.connectivity.gps" /></span>
+			<span ng-show="!PhoneDetail.isEditing">{{PhoneDetail.phone.connectivity.gps | checkmark}}</span>
+			<input ng-show="PhoneDetail.isEditing" type="text" ng-model="PhoneDetail.phone.connectivity.gps" /></span>
 		</dd>
     </dl>
   </li>
@@ -70,60 +70,60 @@
     <span>Android</span>
     <dl>
       <dt>OS Version</dt>
-      <dd>{{phone.android.os}}</dd>
+      <dd>{{PhoneDetail.phone.android.os}}</dd>
       <dt>UI</dt>
-      <dd>{{phone.android.ui}}</dd>
+      <dd>{{PhoneDetail.phone.android.ui}}</dd>
     </dl>
   </li>
   <li>
     <span>Size and Weight</span>
     <dl>
       <dt>Dimensions</dt>
-      <dd ng-repeat="dim in phone.sizeAndWeight.dimensions">{{dim}}</dd>
+      <dd ng-repeat="dim in PhoneDetail.phone.sizeAndWeight.dimensions">{{dim}}</dd>
       <dt>Weight</dt>
-      <dd>{{phone.sizeAndWeight.weight}}</dd>
+      <dd>{{PhoneDetail.phone.sizeAndWeight.weight}}</dd>
     </dl>
   </li>
   <li>
     <span>Display</span>
     <dl>
       <dt>Screen size</dt>
-      <dd>{{phone.display.screenSize}}</dd>
+      <dd>{{PhoneDetail.phone.display.screenSize}}</dd>
       <dt>Screen resolution</dt>
-      <dd>{{phone.display.screenResolution}}</dd>
+      <dd>{{PhoneDetail.phone.display.screenResolution}}</dd>
       <dt>Touch screen</dt>
-      <dd>{{phone.display.touchScreen | checkmark}}</dd>
+      <dd>{{PhoneDetail.phone.display.touchScreen | checkmark}}</dd>
     </dl>
   </li>
   <li>
     <span>Hardware</span>
     <dl>
       <dt>CPU</dt>
-      <dd>{{phone.hardware.cpu}}</dd>
+      <dd>{{PhoneDetail.phone.hardware.cpu}}</dd>
       <dt>USB</dt>
-      <dd>{{phone.hardware.usb}}</dd>
+      <dd>{{PhoneDetail.phone.hardware.usb}}</dd>
       <dt>Audio / headphone jack</dt>
-      <dd>{{phone.hardware.audioJack}}</dd>
+      <dd>{{PhoneDetail.phone.hardware.audioJack}}</dd>
       <dt>FM Radio</dt>
-      <dd>{{phone.hardware.fmRadio | checkmark}}</dd>
+      <dd>{{PhoneDetail.phone.hardware.fmRadio | checkmark}}</dd>
       <dt>Accelerometer</dt>
-      <dd>{{phone.hardware.accelerometer | checkmark}}</dd>
+      <dd>{{PhoneDetail.phone.hardware.accelerometer | checkmark}}</dd>
     </dl>
   </li>
   <li>
     <span>Camera</span>
     <dl>
       <dt>Primary</dt>
-      <dd>{{phone.camera.primary}}</dd>
+      <dd>{{PhoneDetail.phone.camera.primary}}</dd>
       <dt>Features</dt>
-      <dd>{{phone.camera.features.join(', ')}}</dd>
+      <dd>{{PhoneDetail.phone.camera.features.join(', ')}}</dd>
     </dl>
   </li>
   <li>
     <span>Additional Features</span>
-    <dd>{{phone.additionalFeatures}}</dd>
+    <dd>{{PhoneDetail.phone.additionalFeatures}}</dd>
   </li>
 </ul>
-<button ng-show="!isEditing" ng-click="isEditing = true">Edit</button>
-<button ng-show="isEditing" ng-click="save(phone)">Save</button>
+<button ng-show="!PhoneDetail.isEditing" ng-click="PhoneDetail.isEditing = true">Edit</button>
+<button ng-show="PhoneDetail.isEditing" ng-click="PhoneDetail.save(phone)">Save</button>
 </form>

@@ -14,11 +14,11 @@
         $routeProvider
             .when('/phones', {
                 templateUrl: 'partials/phone-list.html',
-                controller: 'PhoneListCtrl'
+                controller: 'PhoneListCtrl as PhoneList'
             })
             .when('/phones/:phoneId', {
                 templateUrl: 'partials/phone-detail.html',
-                controller: 'PhoneDetailCtrl'
+                controller: 'PhoneDetailCtrl as PhoneDetail'
             })
             .otherwise({
                 redirectTo: '/phones'
