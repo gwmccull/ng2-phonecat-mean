@@ -4,7 +4,8 @@
     angular.module('phonecatApp', [
             'ngRoute',
             'phonecatAnimations',
-            'phonecatControllers',
+            'PhoneListCtrl',
+            'PhoneDetailCtrl',
             'phonecatFilters',
             'phonecatServices'
         ])
@@ -13,11 +14,11 @@
     function routeProvider($routeProvider) {
         $routeProvider
             .when('/phones', {
-                templateUrl: 'partials/phone-list.html',
+                templateUrl: 'js/phone-list/phone-list.html',
                 controller: 'PhoneListCtrl as PhoneList'
             })
             .when('/phones/:phoneId', {
-                templateUrl: 'partials/phone-detail.html',
+                templateUrl: 'js/phone-detail/phone-detail.html',
                 controller: 'PhoneDetailCtrl as PhoneDetail'
             })
             .otherwise({

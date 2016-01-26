@@ -2,9 +2,8 @@
 
 /* Controllers */
 (function() {
-    angular.module('phonecatControllers', [])
-        .controller('PhoneDetailCtrl', PhoneDetailCtrl)
-        .controller('PhoneListCtrl', PhoneListCtrl);
+    angular.module('PhoneDetailCtrl', [])
+        .controller('PhoneDetailCtrl', PhoneDetailCtrl);
 
     PhoneDetailCtrl.$inject = ['$routeParams', 'Phone', '$log'];
     function PhoneDetailCtrl($routeParams, Phone, $log) {
@@ -37,24 +36,6 @@
             //        $log.error('Error while saving');
             //    }
             //});
-        }
-    }
-
-    PhoneListCtrl.$inject = ['Phone', '$log'];
-    function PhoneListCtrl(Phone, $log) {
-        var vm = this;
-        vm.phones = [];
-        vm.orderProp = 'age';
-
-        Phone.getPhones().then(success, failure);
-
-        function failure(err) {
-            $log.error("err", err);
-        }
-
-        function success(phones) {
-            $log.log(phones.data)
-            vm.phones = phones.data;
         }
     }
 })();
