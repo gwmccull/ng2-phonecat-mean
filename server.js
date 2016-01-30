@@ -65,7 +65,7 @@ var mongoose = require("mongoose"),
 	}),
 	PhoneDetail = mongoose.model('PhoneDetail', phoneDetailSchema, 'phones');
 
-mongoose.connect('mongodb://localhost:27017/phonecat');
+//mongoose.connect('mongodb://localhost:27017/phonecat');
 
 app.configure(function() {
 	app.use(express.static(__dirname + '/app'));            // set the static files location /app/img will be /img for users
