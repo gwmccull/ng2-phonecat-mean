@@ -5,3 +5,4 @@ tmp
 .idea
 .DS_Store
 angular-phonecat-snapshots
+server/keys/*
