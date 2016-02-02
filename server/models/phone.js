@@ -1,4 +1,5 @@
 let mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 let Schema  = mongoose.Schema;
 let phoneDetailSchema = new Schema({
     additionalFeatures: String,

@@ -5,22 +5,16 @@ let router = Router();
 
 router
     .get('/', (req, res) => {
-        Phone.find({}, (err, phones) => {
-            if (err) {
-                res.send(err);
-            }
-
-            res.json(phones);
-        });
+        Phone
+            .find({})
+            .then(phones => res.json(phones))
+            .catch(err => res.json(err));
     })
     .get('/:phoneId', (req, res) => {
-        Phone.findById(req.params.phoneId, (err, phone) => {
-            if (err) {
-                res.send(err);
-            }
-
-            res.json(phone);
-        });
+        Phone
+            .findById(req.params.phoneId)
+            .then(phone => res.json(phone))
+            .catch(err => res.json(err));
     });
 
 export default router;
