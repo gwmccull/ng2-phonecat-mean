@@ -2,6 +2,9 @@
   "name": "angular-phonecat-mean",
   "description": "Converting Angular Phonecat into a MEAN stack application",
   "repository": "https://github.com/gwmccull/ng2-phonecat-mean",
+  "scripts": {
+    "start": "node index.js"
+  },
   "devDependencies": {
     "morgan": "^1.6.1",
     "nodemon": "^1.8.1"
