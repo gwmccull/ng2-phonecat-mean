@@ -1,4 +1,17 @@
-import mongooseResource from '../lib/mongoose-resource';
-import Foo from '../models/phones';  // a mongoose Model
+import { Router } from 'express';
+import Phones from '../models/phones';
 
-export default mongooseResource('foo', Foo);
+let router = Router();
+
+router
+    .get('/', (req, res) => {
+        Phones.find({}, (err, phones) => {
+            if (err) {
+                res.send(err);
+            }
+
+            res.json(phones);
+        });
+    });
+
+export default router;

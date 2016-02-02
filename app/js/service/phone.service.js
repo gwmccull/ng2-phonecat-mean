@@ -4,21 +4,16 @@
 (function() {
     angular
         .module('phonecatServices', ['ngResource'])
-        .factory('Phone', Phone);
+        .factory('Phones', Phones)
+        .factory('PhoneDetails', PhoneDetails);
 
-    Phone.$inject = ['$http'];
-    function Phone($http){
-        return {
-            getPhones: getPhones,
-            getPhone: getPhone
-        };
+    PhoneDetails.$inject = ['$resource'];
+    function PhoneDetails($resource) {
+        return $resource('/api/phone-details/:phoneId');
+    }
 
-        function getPhone(phoneId) {
-            return $http.get('phones/' + phoneId + '.json');
-        }
-
-        function getPhones() {
-            return $http.get('phones/phones.json');
-        }
+    Phones.$inject = ['$resource'];
+    function Phones($resource) {
+        return $resource('/api/phones');
     }
 })();

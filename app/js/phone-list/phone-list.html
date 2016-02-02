@@ -22,10 +22,10 @@
     <div class="col-md-8">
         <!--Body content-->
         <ul class="phones">
-            <li ng-repeat="phone in PhoneList.phones | filter:PhoneList.query | orderBy:PhoneList.orderProp as filtered_result track by phone.id"
+            <li ng-repeat="phone in PhoneList.phones | filter:PhoneList.query | orderBy:PhoneList.orderProp as filtered_result track by phone._id"
                 class="thumbnail phone-listing">
-                <a href="#/phones/{{::phone.id}}" class="thumb"><img ng-src="{{::phone.imageUrl}}"></a>
-                <a href="#/phones/{{::phone.id}}">{{::phone.name}}</a>
+                <a href="/phones/{{::phone._id}}" class="thumb"><img ng-src="{{::phone.imageUrl}}"></a>
+                <a href="/phones/{{::phone._id}}">{{::phone.name}}</a>
                 <p>{{::phone.snippet}}</p>
             </li>
         </ul>

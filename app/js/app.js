@@ -9,9 +9,9 @@
             'phonecatFilters',
             'phonecatServices'
         ])
-        .config(['$routeProvider', routeProvider]);
+        .config(['$routeProvider', '$locationProvider', routeProvider]);
 
-    function routeProvider($routeProvider) {
+    function routeProvider($routeProvider, $locationProvider) {
         $routeProvider
             .when('/phones', {
                 templateUrl: 'js/phone-list/phone-list.html',
@@ -24,5 +24,7 @@
             .otherwise({
                 redirectTo: '/phones'
             });
+
+        $locationProvider.html5Mode(true);
     }
 })();

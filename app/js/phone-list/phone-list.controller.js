@@ -5,21 +5,24 @@
     angular.module('PhoneListCtrl', [])
         .controller('PhoneListCtrl', PhoneListCtrl);
 
-    PhoneListCtrl.$inject = ['Phone', '$log'];
-    function PhoneListCtrl(Phone, $log) {
+    PhoneListCtrl.$inject = ['Phones', '$log'];
+    function PhoneListCtrl(Phones, $log) {
         var vm = this;
         vm.phones = [];
         vm.orderProp = 'age';
 
-        Phone.getPhones().then(success, failure);
+        Phones
+            .query()
+            .$promise
+            .then(success, failure);
 
         function failure(err) {
             $log.error("err", err);
         }
 
         function success(phones) {
-            $log.log(phones.data)
-            vm.phones = phones.data;
+            $log.log(phones);
+            vm.phones = phones;
         }
     }
 })();

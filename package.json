@@ -3,6 +3,7 @@
   "description": "Converting Angular Phonecat into a MEAN stack application",
   "repository": "https://github.com/gwmccull/ng2-phonecat-mean",
   "devDependencies": {
+    "morgan": "^1.6.1",
     "nodemon": "^1.8.1"
   },
   "dependencies": {
@@ -19,6 +20,6 @@
     "express": "^4.13.4",
     "jquery": "^2.2.0",
     "mongoose": "^4.3.7",
-    "resource-router-middleware": "^0.5.1"
+    "serve-static": "^1.10.2"
   }
 }

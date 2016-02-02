@@ -3,31 +3,26 @@ import express from 'express';
 //import cors from 'cors';
 import bodyParser from 'body-parser';
 import db from './db';
-//import middleware from './middleware';
 import api from './api';
+import staticFiles from './static';
 
-var app = express();
+let app = express();
 app.server = http.createServer(app);
-
-// 3rd party middleware
-//app.use(cors({
-//    exposedHeaders: ['Link']
-//}));
 
 app.use(bodyParser.json({
     limit : '100kb'
 }));
 
 // connect to db
-db( λ => {
-
-    // internal middleware
-    //app.use(middleware());
+db( () => {
 
     // api router
     app.use('/api', api());
 
-    app.server.listen(process.env.PORT || 8080);
+    // static files
+    app.use(staticFiles());
+
+    app.server.listen(process.env.PORT || 1234);
 
     console.log(`Started on port ${app.server.address().port}`);
 });

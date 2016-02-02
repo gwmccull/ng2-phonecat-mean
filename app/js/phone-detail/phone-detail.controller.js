@@ -5,8 +5,8 @@
     angular.module('PhoneDetailCtrl', [])
         .controller('PhoneDetailCtrl', PhoneDetailCtrl);
 
-    PhoneDetailCtrl.$inject = ['$routeParams', 'Phone', '$log'];
-    function PhoneDetailCtrl($routeParams, Phone, $log) {
+    PhoneDetailCtrl.$inject = ['$routeParams', '$log', 'PhoneDetails'];
+    function PhoneDetailCtrl($routeParams, $log, PhoneDetails) {
         var vm = this;
         vm.isEditing = false;
         vm.mainImageUrl = '';
@@ -16,16 +16,22 @@
             vm.mainImageUrl = imageUrl;
         };
 
-        Phone.getPhone($routeParams.phoneId).then(getPhoneSuccess, getPhoneFailure);
+        PhoneDetails
+            .get({phoneId: $routeParams.phoneId})
+            .$promise
+            .then(getPhoneSuccess)
+            .catch(getPhoneFailure);
 
         function getPhoneFailure(err) {
             $log.error("err", err);
         }
 
         function getPhoneSuccess(phone) {
-            $log.log(phone.data);
-            vm.phone = phone.data;
-            vm.setImage(vm.phone.images[0]);
+            $log.log("phone", phone);
+            if (phone) {
+                vm.phone = phone;
+                vm.setImage(vm.phone.images[0]);
+            }
         }
 
         function savePhone(phone) {
